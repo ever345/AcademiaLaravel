@@ -15,7 +15,12 @@ class CursoController extends Controller
      */
     public function index()
     {
-        return view('cursos.index');
+        /*instanciamos el modelo curso en la varible cursito,
+    utilizando un metodo all() que nos trae toda la informacion de la tabla como array*/
+        $cursito = Curso::all();
+
+//el metodo compact adjunta la informacion deseado a la vista para usarla en la vista
+        return view('cursos.index',compact('cursito'));
     }
 
     /**
@@ -39,6 +44,12 @@ class CursoController extends Controller
         $cursito = new Curso();
         $cursito -> nombre = $request -> input('nombre');
         $cursito -> descripcion = $request -> input('descripcion');
+/*validamos si biene un archivo del campo x,
+luego en el campo imagen almacenamos el del archivo que
+se va a guardar en storegare/aa/public e indicamos una subcarpeta para ser mas ordenados*/
+        if($request -> hasFile('imagen')){
+            $cursito -> imagen = $request -> file('imagen')-> store('public/cursos');
+        }
         $cursito -> save();
 
         return 'curso creado exitosamente';

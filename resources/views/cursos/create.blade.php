@@ -7,7 +7,7 @@
 @section('contenido')
 <br>
     <h3 class="text-center"> Creacion de nuevo curso</h3>
-    <form action="/cursos" method="POST">
+    <form action="/cursos" method="POST" enctype="multipart/form-data">
         {{--csrf es una proteccion contra ataques malintencionados--}}
         @csrf
         <div class="form-group">
@@ -18,7 +18,12 @@
             <label for="descrip">Ingrese un descripcion</label>
             <input id="descrip" class="form-control" type="text" name="descripcion">
         </div>
-        <button type="submit" class="btn btn-primary">Crear</button>
+        <div class="form-group">
+            <label for="imagen">Cargue una imagen para el curso</label>
+            <br>
+            <input id="imagen" type="file" name="imagen">
+        </div>
+        <button type="submit" class="btn btn-dark">Crear</button>
     </form>
 
 
