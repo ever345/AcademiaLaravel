@@ -38,7 +38,9 @@ se va a guardar en storegare/aa/public e indicamos una subcarpeta para ser mas o
 //le digo que guarde la informacion
         $cursito -> save();
 
-        return 'curso creado exitosamente';
+        $tabla = 'Curso';
+        $estado = 'Creado';
+        return view('mensageExitoso', compact('cursito','tabla','estado'));
     }
 
 
@@ -71,19 +73,28 @@ se va a guardar en storegare/aa/public e indicamos una subcarpeta para ser mas o
             $cursito->imagen = $request->file('imagen')->store('public/cursos');
         }
         $cursito->save();
-        return 'Curso Actualizado Correctamente';
+
+        $cursito = Curso::where('id',$id)->firstOrFail();
+        $tabla = 'Curso';
+        $estado = 'Actualizado';
+        return view('mensageExitoso', compact('cursito','tabla','estado'));
     }
 
     public function destroy($id)
     {
-        //
+        $cursito = Curso::find($id);
+        $urlImagenBD = $cursito->imagen;
+        $nombreImagen = str_replace('public/','\storage\\',$urlImagenBD);
+        $rutaCompleta = public_path().$nombreImagen;
+        unlink($rutaCompleta);
+        $cursito->delete();
+        $tabla = 'Curso';
+        $estado = 'Eliminado';
+        return view('mensageExitoso', compact('cursito','tabla','estado'));
     }
 
     public function info(){
         return view('varios.nosotros');
     }
 
-    public function informacion(){
-        return view('varios.docente');
-    }
 }
