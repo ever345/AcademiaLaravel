@@ -1,7 +1,7 @@
 @extends('loyauts.app')
 
 @section('titulo', 'Mensage Exitoso')
-
+{{--@section('css')--}}
 @section('contenido')
 <div class="container" style="padding: 50px 79px">
     @if ($tabla == 'Curso' and $estado == 'Eliminado')

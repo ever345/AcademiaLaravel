@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storePersonajeRequest;
 use App\Models\Curso;
 
 class CursoController extends Controller
@@ -24,16 +25,26 @@ class CursoController extends Controller
         return view('cursos.create');
     }
 
-    public function store(Request $request)
+    public function store(storePersonajeRequest $solicitud)
     {
+        /*
+        $validacionDatos = $solicitud -> validate([
+            'nombre'=>'required|max:10',
+            'avatar'=>'required|image'
+        ]);*/
+
+        if($solicitud->hasFile('imagen')){
+            $archivo = $solicitud->file('imagen');
+        }
+
         $cursito = new Curso();
-        $cursito -> nombre = $request -> input('nombre');
-        $cursito -> descripcion = $request -> input('descripcion');
+        $cursito -> nombre = $solicitud -> input('nombre');
+        $cursito -> descripcion = $solicitud -> input('descripcion');
 /*validamos si biene un archivo del campo x,
 luego en el campo imagen almacenamos el del archivo que
 se va a guardar en storegare/aa/public e indicamos una subcarpeta para ser mas ordenados*/
-        if($request -> hasFile('imagen')){
-            $cursito -> imagen = $request -> file('imagen')-> store('public/cursos');
+        if($solicitud -> hasFile('imagen')){
+            $cursito -> imagen = $solicitud -> file('imagen')-> store('public/cursos');
         }
 //le digo que guarde la informacion
         $cursito -> save();
